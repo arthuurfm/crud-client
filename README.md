@@ -14,8 +14,8 @@ npm install
 npm run dev
 ```
 #### Requests (GET, POST, PUT and DELETE):
-**You will use the client.js as a interact menu**
-~~~JavaScript
+**You will use the client.js as a interact menu.**
+~~~javascript
 import axios from 'axios';
 
 const method = process.argv[2];
@@ -27,7 +27,6 @@ const args = process.argv.slice(4);
 const data = args.reduce((acc, arg) => {
   const [key, value] = arg.split('=');
 
-  // tenta converter números automaticamente.
   const num = Number(value);
   acc[key] = isNaN(num) ? value : num;
 
