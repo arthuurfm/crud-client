@@ -2,7 +2,7 @@
 ## About
 A simple CRUD, but without using Postman, everything via the command line.
 
-## Installaton
+## Installation
 After cloning the repository, enter the folder corresponding to the project (in cmd) and use:
 ```
 npm install
