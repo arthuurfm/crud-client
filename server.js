@@ -4,5 +4,5 @@ const PORT = 3000;
 
 // o servidor escuta e inicia.
 app.listen(PORT, () => {
-  console.log(`Servidor escutando em http://localhost:${PORT}`);
+  console.log(`Servidor listening in http://localhost:${PORT}`);
 });
