@@ -1,6 +1,6 @@
 # CRUD Client
 ## About
-A simple CRUD, but without using Postman, everything via the command line.
+A simple CRUD, but without using Postman, everything via the command line. The database connection will be fully accessible for testing, without .env protection.
 
 ## Installation
 After cloning the repository, enter the folder corresponding to the project (in cmd) and use:
@@ -72,11 +72,11 @@ const data = args.reduce((acc, arg) => {
   ```
 - POST:
   ```
-  node client.js POST http://localhost:3000/route-name id=value title="value"
+  node client.js POST http://localhost:3000/route-name title="value" developer="value" price=value
   ```
 - PUT:
   ```
-  node client.js PUT http://localhost:3000/route-name/id title="value"
+  node client.js PUT http://localhost:3000/route-name/id title="value" developer="value" price=value
   ```
 - DELETE:
   ```

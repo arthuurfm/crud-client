@@ -1,20 +1,20 @@
 import express from 'express';
+import dbConnect from './config/dbConnect.js';
+import routes from './routes/index.js';
+
+const connection = await dbConnect();
+// se houver algum erro, dispara o erro.
+connection.on('error', (error) => {
+  console.error('Connection error:', error);
+});
+
+// se tudo certo, se conecta com db.
+connection.once('open', () => {
+  console.log('Database connection successfully.');
+});
 
 const app = express();
-
-// middleware que manipula "req".
-app.use(express.json());
-
-const games = [
-  {
-    id: 1,
-    title: 'Red Dead Redemption 2'
-  },
-  {
-    id: 2,
-    title: 'Counter Strike'
-  }
-];
+routes(app);
 
 function searchGame(id) {
   return games.findIndex(game => {
@@ -23,26 +23,10 @@ function searchGame(id) {
   });
 }
 
-// rota home.
-app.get('/', (req, res) => {
-  res.status(200).send('Home');
-});
-
-// todos os jogos cadastrados.
-app.get('/games', (req, res) => {
-  res.status(200).json(games);
-});
-
 // puxa o game pelo id informado.
 app.get('/games/:id', (req, res) => {
   const index = searchGame(req.params.id);
   res.status(200).json(games[index]);
-});
-
-// cadastra um novo game.
-app.post('/games', (req, res) => {
-  games.push(req.body);
-  res.status(201).send('Successfully registered');
 });
 
 // atualiza um game pelo id informado.
