@@ -1,3 +1,4 @@
+import { developer } from "../models/Developer.js";
 import game from "../models/Game.js";
 
 class GameController {
@@ -28,6 +29,17 @@ class GameController {
     }
   }
 
+  // busca um jogo pelo título.
+  static async getGamesByTitle(req, res) {
+    const title = req.query.title;
+    try {
+      const gameByTitle = await game.find({title: title});
+      res.status(200).json(gameByTitle);
+    } catch (error) {
+      res.status(500).json({message: `SEARCH FAILURE - ${error.message}`})
+    }
+  }
+
   // atualiza um jogo pelo id.
   static async updateGame(req, res) {
     try {
@@ -45,13 +57,16 @@ class GameController {
     }
   }
 
-  // cadstra um novo jogo.
+  // cadastra um novo jogo.
   static async registerGame(req, res) {
+    const newGame = req.body;
     try {
-      const newGame = await game.create(req.body);
+      const developerFound = await developer.findById(newGame.developer);
+      const completeGame = {...newGame, developer: {...developerFound._doc}};
+      const createdGame = await game.create(completeGame);
       res.status(201).json({
         message: 'Successfully registered',
-        game: newGame
+        game: createdGame
       });
     } catch (error) {
       res.status(500).json({
@@ -60,6 +75,7 @@ class GameController {
     }
   }
 
+  // deleta um jogo.
   static async deleteGame(req, res) {
     try {
       const id = req.params.id;

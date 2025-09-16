@@ -8,8 +8,7 @@ const routes = (app) => {
   app.route('/').get((req, res) => res.status(200).send('Home'));
 
   // rota games.
-  app.use(express.json(), games);
-  app.use(express.json(), developers);
+  app.use(express.json(), games, developers);
 };
 
 export default routes;
