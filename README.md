@@ -14,25 +14,21 @@ npm install
 npm run dev
 ```
 #### Requests (GET, POST, PUT and DELETE):
-**You will use the client.js as a interact menu.**
+**You will use the client.js as a interact menu (in cmd).**
 ~~~javascript
 import axios from 'axios';
 
 const method = process.argv[2];
-
 const url = process.argv[3];
-
 const args = process.argv.slice(4);
 
 const data = args.reduce((acc, arg) => {
   const [key, value] = arg.split('=');
-
   const num = Number(value);
   acc[key] = isNaN(num) ? value : num;
 
   return acc;
 }, {});
-
 
 (async () => {
   try {
@@ -66,17 +62,19 @@ const data = args.reduce((acc, arg) => {
   }
 })();
 ~~~
+> [! IMPORTANT]
+> When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
 - GET:
   ```
   node client.js GET http://localhost:3000/route-name
   ```
 - POST:
   ```
-  node client.js POST http://localhost:3000/route-name title="value" developer="value" price=value
+  node client.js POST http://localhost:3000/route-name key=value
   ```
 - PUT:
   ```
-  node client.js PUT http://localhost:3000/route-name/id title="value" developer="value" price=value
+  node client.js PUT http://localhost:3000/route-name/id key=value
   ```
 - DELETE:
   ```

@@ -1,5 +1,6 @@
 import express from 'express';
 import games from './gamesRoutes.js';
+import developers from './developersRoutes.js';
 
 // middleware do express que gerencia rotas, manipula requisições e respostas.
 const routes = (app) => {
@@ -8,6 +9,7 @@ const routes = (app) => {
 
   // rota games.
   app.use(express.json(), games);
+  app.use(express.json(), developers);
 };
 
 export default routes;
