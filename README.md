@@ -62,7 +62,7 @@ const data = args.reduce((acc, arg) => {
   }
 })();
 ~~~
-> [! IMPORTANT]
+> [!IMPORTANT]
 > When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
 - GET:
   ```
