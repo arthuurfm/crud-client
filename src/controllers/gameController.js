@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { developer } from '../models/Developer.js';
 import game from '../models/Game.js';
 
@@ -19,7 +18,7 @@ class GameController {
     try {
       const id = req.params.id;
       const gameFound = await game.findById(id);
-      
+
       // se não for encontrado.
       if (!gameFound) {
         res.status(404).send({
@@ -39,8 +38,24 @@ class GameController {
   static async getGamesByTitle(req, res, next) {
     const title = req.query.title;
     try {
-      const gameByTitle = await game.find({title: title});
+      const gameByTitle = await game.find({ title: title });
       res.status(200).json(gameByTitle);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // cadastra um novo jogo.
+  static async registerGame(req, res, next) {
+    const newGame = req.body;
+    try {
+      const developerFound = await developer.findById(newGame.developer);
+      const completeGame = { ...newGame, developer: { ...developerFound } };
+      const createdGame = await game.create(completeGame);
+      res.status(201).json({
+        message: 'Successfully registered',
+        game: createdGame
+      });
     } catch (error) {
       next(error);
     }
@@ -55,22 +70,6 @@ class GameController {
       await game.findByIdAndUpdate(id, newData);
       res.status(200).json({
         message: 'Updated game'
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  // cadastra um novo jogo.
-  static async registerGame(req, res, next) {
-    const newGame = req.body;
-    try {
-      const developerFound = await developer.findById(newGame.developer);
-      const completeGame = {...newGame, developer: {...developerFound._doc}};
-      const createdGame = await game.create(completeGame);
-      res.status(201).json({
-        message: 'Successfully registered',
-        game: createdGame
       });
     } catch (error) {
       next(error);

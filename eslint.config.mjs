@@ -25,6 +25,10 @@ export default defineConfig([{
     sourceType: 'module',
   },
 
+  env: {
+    'node': true
+  },
+
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'windows'],
