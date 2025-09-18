@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { developerSchema } from "./Developer.js";
+import mongoose from 'mongoose';
+import { developerSchema } from './Developer.js';
 
 const gameSchema = new mongoose.Schema({
   id: {type: mongoose.Schema.Types.ObjectId},

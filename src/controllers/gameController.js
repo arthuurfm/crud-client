@@ -1,47 +1,53 @@
-import { developer } from "../models/Developer.js";
-import game from "../models/Game.js";
+import mongoose from 'mongoose';
+import { developer } from '../models/Developer.js';
+import game from '../models/Game.js';
 
 class GameController {
 
   // acessa todos os jogos cadastrados.
-  static async getGames(req, res) {
+  static async getGames(req, res, next) {
     try {
       const gameList = await game.find({});
       res.status(200).json(gameList);
     } catch (error) {
-      res.status(500).json({
-        message: `REQUEST FAILURE - ${error.message}`
-      });
+      next(error);
     }
   }
 
   // acessa um jogo pelo id.
-  static async getGameById(req, res) {
+  static async getGameById(req, res, next) {
     try {
       const id = req.params.id;
-
       const gameFound = await game.findById(id);
+      
+      // se não for encontrado.
+      if (!gameFound) {
+        res.status(404).send({
+          status: 404,
+          message: 'Game ID not found.'
+        }
+        );
+      }
+
       res.status(200).json(gameFound);
     } catch (error) {
-      res.status(500).json({
-        message: `GAME REQUEST FAILURE - ${error.message}`
-      });
+      next(error);
     }
   }
 
   // busca um jogo pelo título.
-  static async getGamesByTitle(req, res) {
+  static async getGamesByTitle(req, res, next) {
     const title = req.query.title;
     try {
       const gameByTitle = await game.find({title: title});
       res.status(200).json(gameByTitle);
     } catch (error) {
-      res.status(500).json({message: `SEARCH FAILURE - ${error.message}`})
+      next(error);
     }
   }
 
   // atualiza um jogo pelo id.
-  static async updateGame(req, res) {
+  static async updateGame(req, res, next) {
     try {
       const id = req.params.id;
       const newData = req.body;
@@ -51,14 +57,12 @@ class GameController {
         message: 'Updated game'
       });
     } catch (error) {
-      res.status(500).json({
-        message: `UPDATE FAILURE - ${error.message}`
-      });
+      next(error);
     }
   }
 
   // cadastra um novo jogo.
-  static async registerGame(req, res) {
+  static async registerGame(req, res, next) {
     const newGame = req.body;
     try {
       const developerFound = await developer.findById(newGame.developer);
@@ -69,14 +73,12 @@ class GameController {
         game: createdGame
       });
     } catch (error) {
-      res.status(500).json({
-        message: `REGISTRATION FAILURE - ${error.message}`
-      });
+      next(error);
     }
   }
 
   // deleta um jogo.
-  static async deleteGame(req, res) {
+  static async deleteGame(req, res, next) {
     try {
       const id = req.params.id;
 
@@ -85,9 +87,7 @@ class GameController {
         message: 'Successfully deleted'
       });
     } catch (error) {
-      res.status(500).json({
-        message: `DELETE FAILURE = ${error.message}`
-      });
+      next(error);
     }
   }
 

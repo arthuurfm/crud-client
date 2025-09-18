@@ -26,29 +26,29 @@ const data = args.reduce((acc, arg) => {
     let res;
     
     switch (method.toUpperCase()) {
-      case 'GET':
-        res = await axios.get(url);
-        break;
+    case 'GET':
+      res = await axios.get(url);
+      break;
       
-      case 'POST':
-        res = await axios.post(url, data);
-        break;
+    case 'POST':
+      res = await axios.post(url, data);
+      break;
 
-      case 'PUT':
-        res = await axios.put(url, data);
-        break;
+    case 'PUT':
+      res = await axios.put(url, data);
+      break;
 
-      case 'DELETE':
-        res = await axios.delete(url);
-        break;
+    case 'DELETE':
+      res = await axios.delete(url);
+      break;
       
-      default:
-        console.log('Invalid method! Use GET, POST, PUT or DELETE.');
-        return;
+    default:
+      console.log('Invalid method! Use GET, POST, PUT or DELETE.');
+      return;
     }
 
     console.log(`Server response:\n${JSON.stringify(res.data, null, 2)}`);
   } catch (error) {
-    console.error('Error:', error.response?.data || error.message);
+    console.error('Error:', JSON.stringify((error.response?.data || error.message), null, 2));
   }
 })();
