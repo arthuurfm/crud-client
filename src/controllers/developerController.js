@@ -1,3 +1,4 @@
+import NotFound from '../errors/NotFound.js';
 import {developer} from '../models/Developer.js';
 
 class DeveloperController {
@@ -18,6 +19,11 @@ class DeveloperController {
       const id = req.params.id;
 
       const developerFound = await developer.findById(id);
+      // se não for encontrado.
+      if (!developerFound) {
+        return next(new NotFound('Developer ID not found'));
+      }
+
       res.status(200).json(developerFound);
     } catch (error) {
       next(error);
@@ -30,7 +36,12 @@ class DeveloperController {
       const id = req.params.id;
       const newData = req.body;
 
-      await developer.findByIdAndUpdate(id, newData);
+      const developerFound = await developer.findByIdAndUpdate(id, newData);
+      // se não for encontrado.
+      if (!developerFound) {
+        return next(new NotFound('Developer ID not found'));
+      }
+
       res.status(200).json({
         message: 'Updated developer'
       });
@@ -57,7 +68,12 @@ class DeveloperController {
     try {
       const id = req.params.id;
 
-      await developer.findByIdAndDelete(id);
+      const developerFound = await developer.findByIdAndDelete(id);
+      // se não for encontrado.
+      if (!developerFound) {
+        return next(new NotFound('Developer ID not found'));
+      }
+
       res.status(200).json({
         message: 'Successfully deleted'
       });

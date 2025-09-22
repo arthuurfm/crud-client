@@ -1,12 +1,13 @@
 import express from 'express';
 import DeveloperController from '../controllers/developerController.js';
 
-const routes = express.Router();
+const router = express.Router();
 
-routes.get('/developers', DeveloperController.getDevelopers);
-routes.get('/developers/:id', DeveloperController.getDeveloperById);
-routes.post('/developers', DeveloperController.registerDeveloper);
-routes.put('/developers/:id', DeveloperController.updateDeveloper);
-routes.delete('/developers/:id', DeveloperController.deleteDeveloper);
+router
+  .get('/developers', DeveloperController.getDevelopers)
+  .get('/developers/:id', DeveloperController.getDeveloperById)
+  .post('/developers', DeveloperController.registerDeveloper)
+  .put('/developers/:id', DeveloperController.updateDeveloper)
+  .delete('/developers/:id', DeveloperController.deleteDeveloper);
 
-export default routes;
+export default router;

@@ -1,3 +1,4 @@
+import NotFound from '../errors/NotFound.js';
 import { developer } from '../models/Developer.js';
 import game from '../models/Game.js';
 
@@ -21,11 +22,7 @@ class GameController {
 
       // se não for encontrado.
       if (!gameFound) {
-        res.status(404).send({
-          status: 404,
-          message: 'Game ID not found.'
-        }
-        );
+       return next(new NotFound('Game ID not found'));
       }
 
       res.status(200).json(gameFound);
@@ -50,6 +47,11 @@ class GameController {
     const newGame = req.body;
     try {
       const developerFound = await developer.findById(newGame.developer);
+      // se não for encontrado.
+      if (!developerFound) {
+        return next(new NotFound('Developer ID not found'));
+      }
+
       const completeGame = { ...newGame, developer: { ...developerFound } };
       const createdGame = await game.create(completeGame);
       res.status(201).json({
@@ -67,7 +69,12 @@ class GameController {
       const id = req.params.id;
       const newData = req.body;
 
-      await game.findByIdAndUpdate(id, newData);
+      const gameFound = await game.findByIdAndUpdate(id, newData);
+      // se não for encontrado.
+      if (!gameFound) {
+        return next(new NotFound('Game ID not found'));
+      }
+
       res.status(200).json({
         message: 'Updated game'
       });
@@ -81,7 +88,12 @@ class GameController {
     try {
       const id = req.params.id;
 
-      await game.findByIdAndDelete(id);
+      const gameFound = await game.findByIdAndDelete(id);
+      // se não for encontrado.
+      if (!gameFound) {
+        return next(new NotFound('Game ID not found'));
+      }
+
       res.status(200).json({
         message: 'Successfully deleted'
       });
