@@ -7,15 +7,21 @@ const gameSchema = new mongoose.Schema({
   },
   title: {
     type: String, 
-    required: true
+    required: [true, '`title` is required.']
   },
   price: {
-    type: Number
+    type: Number,
+    validate: {
+      validator: (value) => {
+        return value >= 0 && value <= 1000;
+      },
+      message: 'Price: {VALUE}. Price must be between 0 and 1000'
+    }
   },
   developer: {
     type: developerSchema,
     ref: 'developers',
-    required: [true, 'Path `developer` is required.']
+    required: [true, '`developer` is required.']
   }
 }, {versionKey: false});
 

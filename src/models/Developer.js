@@ -1,9 +1,17 @@
 import mongoose from 'mongoose';
 
 const developerSchema = new mongoose.Schema({
-  id: {type: mongoose.Schema.Types.ObjectId},
-  name: {type: String, required: true},
-  origin: {type: String}
+  id: {
+    type: mongoose.Schema.Types.ObjectId
+  },
+  name: {
+    type: String, 
+    required: true
+  },
+  origin: {
+    type: String,
+    required: false
+  }
 }, {vesionKey: false});
 
 const developer = mongoose.model('developers', developerSchema);

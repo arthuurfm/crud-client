@@ -11,11 +11,21 @@ const args = process.argv.slice(4);
 
 // body -> transforma ["id=number", "title=title"] em {id: number, title: "title"}.
 const data = args.reduce((acc, arg) => {
+  if (!arg.includes('=')) return acc;
+
   const [key, value] = arg.split('=');
 
-  // tenta converter números automaticamente.
-  const num = Number(value);
-  acc[key] = isNaN(num) ? value : num;
+  if (value === '') {
+    acc[key] = ''; // mantém string vazia.
+  } else if (!isNaN(value)) {
+    acc[key] = Number(value); // converte para número.
+  } else if (value.toLowerCase() === 'true') {
+    acc[key] = true;
+  } else if (value.toLowerCase() === 'false') {
+    acc[key] = false;
+  }else {
+    acc[key] = value; // mantém string normal.
+  }
 
   return acc;
 }, {});

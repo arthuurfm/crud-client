@@ -1,5 +1,5 @@
 import NotFound from '../errors/NotFound.js';
-import {developer} from '../models/Developer.js';
+import { developer } from '../models/index.js';
 
 class DeveloperController {
 

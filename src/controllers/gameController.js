@@ -1,6 +1,6 @@
 import NotFound from '../errors/NotFound.js';
-import { developer } from '../models/Developer.js';
-import game from '../models/Game.js';
+import { developer } from '../models/index.js';
+import { game } from '../models/index.js';
 
 class GameController {
 
