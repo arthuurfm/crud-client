@@ -23,9 +23,21 @@ const url = process.argv[3];
 const args = process.argv.slice(4);
 
 const data = args.reduce((acc, arg) => {
+  if (!arg.includes('=')) return acc;
+
   const [key, value] = arg.split('=');
-  const num = Number(value);
-  acc[key] = isNaN(num) ? value : num;
+
+  if (value === '') {
+    acc[key] = '';
+  } else if (!isNaN(value)) {
+    acc[key] = Number(value);
+  } else if (value.toLowerCase() === 'true') {
+    acc[key] = true;
+  } else if (value.toLowerCase() === 'false') {
+    acc[key] = false;
+  }else {
+    acc[key] = value;
+  }
 
   return acc;
 }, {});
@@ -66,15 +78,15 @@ const data = args.reduce((acc, arg) => {
 > When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
 - GET:
   ```
-  node client.js GET http://localhost:3000/route-name
+  node client.js GET "http://localhost:3000/route-name"
   ```
 - POST:
   ```
-  node client.js POST http://localhost:3000/route-name key=value
+  node client.js POST "http://localhost:3000/route-name" key=value
   ```
 - PUT:
   ```
-  node client.js PUT http://localhost:3000/route-name/id key=value
+  node client.js PUT "http://localhost:3000/route-name/id" key=value
   ```
 - DELETE:
   ```

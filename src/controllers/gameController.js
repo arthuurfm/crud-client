@@ -32,10 +32,29 @@ class GameController {
   }
 
   // busca um jogo pelo título.
-  static async getGamesByTitle(req, res, next) {
-    const title = req.query.title;
+  static async getGamesByFilter(req, res, next) {
+    const {title, minPrice, maxPrice, developerName} = req.query;
+
+    const search = {};
+
+    if (title) search.title = {
+      $regex: title,
+      $options: 'i'
+    };
+
+    if (minPrice || maxPrice) search.price = {};
+    // gte = greater than or equal.
+    if (minPrice) search.price.$gte = minPrice;
+    // lte = less than or equal.
+    if (maxPrice) search.price.$lte = maxPrice;
+
+    if (developerName) search['developer.name'] = {
+      $regex: developerName,
+      $options: 'i'
+    }
+
     try {
-      const gameByTitle = await game.find({ title: title });
+      const gameByTitle = await game.find(search);
       res.status(200).json(gameByTitle);
     } catch (error) {
       next(error);

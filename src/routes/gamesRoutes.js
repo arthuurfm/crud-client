@@ -5,7 +5,7 @@ const router = express.Router();
 
 router
   .get('/games', GameController.getGames)
-  .get('/games/search', GameController.getGamesByTitle)
+  .get('/games/search', GameController.getGamesByFilter)
   .get('/games/:id', GameController.getGameById)
   .post('/games', GameController.registerGame)
   .put('/games/:id', GameController.updateGame)
