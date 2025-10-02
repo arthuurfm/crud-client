@@ -35,7 +35,7 @@ const data = args.reduce((acc, arg) => {
     acc[key] = true;
   } else if (value.toLowerCase() === 'false') {
     acc[key] = false;
-  }else {
+  } else {
     acc[key] = value;
   }
 
@@ -74,24 +74,52 @@ const data = args.reduce((acc, arg) => {
   }
 })();
 ~~~
-> [!IMPORTANT]
-> When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
-- GET:
+#### Default routes (games and developers):
+  - GET:
   ```
   node client.js GET "http://localhost:3000/route-name"
   ```
-- POST:
+  - POST:
   ```
   node client.js POST "http://localhost:3000/route-name" key=value
   ```
-- PUT:
+  - PUT:
   ```
   node client.js PUT "http://localhost:3000/route-name/id" key=value
   ```
-- DELETE:
+  - DELETE:
   ```
   node client.js DELETE http://localhost:3000/route-name/id
   ```
-
+  > [!IMPORTANT]
+  > When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
+#### Search on games route:
+  **Paths:**
+  - title:
+    Search for the title of a game.
+  - minPrice: 
+    Search for the minimum price of a game.
+  - maxPrice:
+    Search for the maximum price of a game.
+  - developerName:
+    Search by developer name.
+  ```
+  node client.js GET "http://localhost:3000/games/search?path=value"
+  ```
+#### Filters on games route:
+  **Paths:**
+  - limit:
+    Filter by the maximum number of games to show on a single page.
+  - page:
+    Change the page.
+  ```
+  node client.js GET "http://localhost:3000/games?limit=value&page=value"
+  ```
+  - sort:
+    Filter by alphabetical order or by recent.
+    It takes two parameters. The first is the **key** you want to sort by, and the second is the **sort type** (1: ascending, -1: descending).
+  ```
+  node client.js GET "http://localhost:3000/games/search?sort=key:sort-type"
+  ```
 ## Developed by:
 **Arthur Franz**

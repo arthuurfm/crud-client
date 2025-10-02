@@ -8,14 +8,18 @@ class GameController {
   // acessa todos os jogos cadastrados.
   static async getGames(req, res, next) {
     try {
-      let {limit = 5, page = 1} = req.query;
+      let {limit = 5, page = 1, sort='_id:-1'} = req.query;
+
+      let [orderingField, order] = sort.split(':');
 
       limit = parseInt(limit);
       page = parseInt(page);
+      order = parseInt(order);
 
       if (limit > 0 && page > 0) {
         const gameList = await game
           .find()
+          .sort({[orderingField]: order})
           .skip((page - 1) * limit)
           .limit(limit)
           .populate('developer')
