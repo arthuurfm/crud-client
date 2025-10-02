@@ -94,7 +94,6 @@ const data = args.reduce((acc, arg) => {
   > [!IMPORTANT]
   > When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
 #### Search on games route:
-  **Paths:**
   - title:
     Search for the title of a game.
   - minPrice: 
@@ -107,7 +106,6 @@ const data = args.reduce((acc, arg) => {
   node client.js GET "http://localhost:3000/games/search?path=value"
   ```
 #### Filters on games route:
-  **Paths:**
   - limit:
     Filter by the maximum number of games to show on a single page.
   - page:
