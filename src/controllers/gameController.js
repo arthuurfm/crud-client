@@ -1,4 +1,5 @@
 import NotFound from '../errors/NotFound.js';
+import BadRequest from '../errors/BadRequest.js';
 import { developer } from '../models/index.js';
 import { game } from '../models/index.js';
 
@@ -7,8 +8,24 @@ class GameController {
   // acessa todos os jogos cadastrados.
   static async getGames(req, res, next) {
     try {
-      const gameList = await game.find({});
-      res.status(200).json(gameList);
+      let {limit = 5, page = 1} = req.query;
+
+      limit = parseInt(limit);
+      page = parseInt(page);
+
+      if (limit > 0 && page > 0) {
+        const gameList = await game
+          .find()
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .populate('developer')
+          .exec();
+  
+        res.status(200).json(gameList);      
+      } else {
+        next(new BadRequest());
+      }
+
     } catch (error) {
       next(error);
     }
@@ -33,29 +50,32 @@ class GameController {
 
   // busca um jogo pelo título.
   static async getGamesByFilter(req, res, next) {
-    const {title, minPrice, maxPrice, developerName} = req.query;
-
-    const search = {};
-
-    if (title) search.title = {
-      $regex: title,
-      $options: 'i'
-    };
-
-    if (minPrice || maxPrice) search.price = {};
-    // gte = greater than or equal.
-    if (minPrice) search.price.$gte = minPrice;
-    // lte = less than or equal.
-    if (maxPrice) search.price.$lte = maxPrice;
-
-    if (developerName) search['developer.name'] = {
-      $regex: developerName,
-      $options: 'i'
-    }
-
     try {
-      const gameByTitle = await game.find(search);
-      res.status(200).json(gameByTitle);
+      const {title, minPrice, maxPrice, developerName} = req.query;
+
+      const search = {};
+
+      if (title) search.title = {
+        $regex: title,
+        $options: 'i'
+      };
+
+      if (minPrice || maxPrice) search.price = {};
+      // gte = greater than or equal.
+      if (minPrice) search.price.$gte = minPrice;
+      // lte = less than or equal.
+      if (maxPrice) search.price.$lte = maxPrice;
+
+      if (developerName) {
+        search['developer.name'] = {
+          $regex: developerName,
+          $options: 'i'
+        }
+
+        const gameByTitle = await game.find(search);
+        res.status(200).json(gameByTitle);
+      }
+
     } catch (error) {
       next(error);
     }
