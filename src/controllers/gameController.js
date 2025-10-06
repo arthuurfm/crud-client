@@ -1,5 +1,4 @@
 import NotFound from '../errors/NotFound.js';
-import BadRequest from '../errors/BadRequest.js';
 import { developer } from '../models/index.js';
 import { game } from '../models/index.js';
 
@@ -8,28 +7,9 @@ class GameController {
   // acessa todos os jogos cadastrados.
   static async getGames(req, res, next) {
     try {
-      let {limit = 5, page = 1, sort='_id:-1'} = req.query;
-
-      let [orderingField, order] = sort.split(':');
-
-      limit = parseInt(limit);
-      page = parseInt(page);
-      order = parseInt(order);
-
-      if (limit > 0 && page > 0) {
-        const gameList = await game
-          .find()
-          .sort({[orderingField]: order})
-          .skip((page - 1) * limit)
-          .limit(limit)
-          .populate('developer')
-          .exec();
-  
-        res.status(200).json(gameList);      
-      } else {
-        next(new BadRequest());
-      }
-
+      const games = game.find();
+      req.result = games;
+      next();
     } catch (error) {
       next(error);
     }
@@ -76,8 +56,9 @@ class GameController {
           $options: 'i'
         }
 
-        const gameByTitle = await game.find(search);
-        res.status(200).json(gameByTitle);
+        const gameByTitle = game.find(search);
+        req.result = gameByTitle;
+        next();
       }
 
     } catch (error) {

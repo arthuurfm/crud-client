@@ -6,8 +6,9 @@ class DeveloperController {
   // acessa todos os desenvolvedores cadastrados.
   static async getDevelopers(req, res, next) {
     try {
-      const developerList = await developer.find({});
-      res.status(200).json(developerList);
+      const developerList = developer.find({});
+      req.result = developerList;
+      next();
     } catch (error) {
       next(error);
     }

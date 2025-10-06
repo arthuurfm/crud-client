@@ -93,7 +93,7 @@ const data = args.reduce((acc, arg) => {
   ```
   > [!IMPORTANT]
   > When use POST or PUT, the sintaxe is **key=value for numbers** and **key="value" for strings**.
-#### Search on games route:
+#### Search on game route:
   - title:
     Search for the title of a game.
   - minPrice: 
@@ -105,19 +105,19 @@ const data = args.reduce((acc, arg) => {
   ```
   node client.js GET "http://localhost:3000/games/search?path=value"
   ```
-#### Filters on games route:
+#### Filters for all routes:
   - limit:
     Filter by the maximum number of games to show on a single page.
   - page:
     Change the page.
   ```
-  node client.js GET "http://localhost:3000/games?limit=value&page=value"
+  node client.js GET "http://localhost:3000/route?limit=value&page=value"
   ```
   - sort:
     Filter by alphabetical order or by recent.
     It takes two parameters. The first is the **key** you want to sort by, and the second is the **sort type** (1: ascending, -1: descending).
   ```
-  node client.js GET "http://localhost:3000/games/search?sort=key:sort-type"
+  node client.js GET "http://localhost:3000/route/search?sort=key:sort-type"
   ```
 ## Developed by:
 **Arthur Franz**
